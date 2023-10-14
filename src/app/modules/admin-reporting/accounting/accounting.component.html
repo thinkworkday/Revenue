@@ -1,0 +1,55 @@
+<app-reporting-filtering (onDatesPicked)="updateReportingFiltering($event)"></app-reporting-filtering>
+
+<ngx-datatable #expandableTable class="material fullscreen expandable" style="top: 30px; height: 500px"
+  [columnMode]="'force'" [headerHeight]="50" [footerHeight]="0" [rowHeight]="50" [scrollbarV]="true" [rows]="rows"
+  [loadingIndicator]="loadingIndicator">
+  <!-- Row Detail Template -->
+  <ngx-datatable-row-detail [rowHeight]="getDetailRowHeight" (toggle)="onDetailToggle($event)">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+      <div style="padding-left: 36px;">
+        <div *ngFor="let report of row.reporting; let i = index;">
+          <div style="display: flex;">
+            <div style="min-width: 20%;">
+              <span>{{ report }} : </span>
+            </div>
+            <div style="min-width: 80%;">
+              <span>{{ row.everyrevenue[i] | currency: 'USD' }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="padding-left: 36px; margin-top: 5px">
+        <div style="display: flex;">
+          <div style="min-width: 20%;">
+            <strong style="font-size: 14px;">Total : </strong>
+          </div>
+          <div style="min-width: 80%;">
+            <strong style="font-size: 14px;">{{ row.total | currency: 'USD' }}</strong>
+          </div>
+        </div>
+
+      </div>
+
+    </ng-template>
+  </ngx-datatable-row-detail>
+
+  <ngx-datatable-column [width]="30" [resizeable]="false" [sortable]="false" [draggable]="false"
+    [canAutoResize]="false">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+  <!-- PUBLISHER -->
+  <ngx-datatable-column name="publisher" [minWidth]="100">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Publisher Name
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

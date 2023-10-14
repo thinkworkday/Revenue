@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-lg-12 col-xxl-12">
+    <app-mixed-widget1 *ngIf="ChartData" [ChartData]="ChartData" [CompanyName]="companyName"></app-mixed-widget1>
+  </div>
+</div>
+<!-- begin:: Error -->
+<div *ngIf="!pagePermission" class="error error-3 d-flex flex-row-fluid bgi-size-cover bgi-position-center" style="background-image: url('./assets/media/error/bg3.jpg'); height: 100%;zoom: 1;
+  display: block;
+  min-height: 80vh;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #0e1724;">
+  <!--begin::Content-->
+  <div class="px-10 px-md-30 py-10 py-md-0 d-flex flex-column justify-content-md-center">
+    <p class="display-4 font-weight-boldest text-white mb-12">
+      How did you get here
+    </p>
+    <p class="font-size-h1 font-weight-boldest text-dark-75">
+      Sorry you can't access the page you're looking for.
+    </p>
+    <p class="font-size-h4 line-height-md">
+      There may be a misspelling in the URL entered,<br />or the page you are
+      looking for may no longer exist.
+    </p>
+  </div>
+  <!--end::Content-->
+</div>

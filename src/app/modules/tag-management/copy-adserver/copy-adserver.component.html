@@ -1,0 +1,44 @@
+<mat-dialog-content class="mat-typography">
+  <div class="row">
+    <!-- STARTING UPDATE Tag-->
+    <div class="col-xl-12">
+      <div class="card card-custom example example-compact gutter-b">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="card-label">Copy Adserver initialURL</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="row m-2">
+                <div class="d-flex justify-content-between w-100" style="align-items: center;">
+                  <div>
+                    {{decodeURI(adServerUrl)}}&tid={{tagKey}}
+                  </div>
+                  <div>
+                    <a title="Copy Tag ID" class="btn btn-icon btn-light btn-hover-info btn-sm"
+                      (click)="openClipBoardDialog(adServerUrl, tagKey)">
+                      <span [inlineSVG]="'./assets/media/svg/icons/General/Clipboard.svg'" cacheSVG="false"
+                        class="svg-icon svg-icon-md svg-icon-info">
+                      </span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="row buttons">
+  <div class="col-xl-12 justify-content-md-center d-flex">
+    <button class="save-button" mat-raised-button color="primary" (click)="close()">
+      Close
+    </button>
+  </div>
+
+</div>

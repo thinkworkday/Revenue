@@ -1,0 +1,36 @@
+<div class="contents__box contents__box--right">
+    <div class="section">
+        <h3 class="section-head">Notification</h3>
+        <div class="section-content">
+            <div class="row">
+                <div class="col-xl-12">
+                    <h3 style="font-weight: 600;">{{notificationData?.title}}</h3>
+                    <div class="py-3">
+                        <span>Sent Date: </span>
+                        <span class="label label-lg font-weight-bold label-light-success label-inline" >
+                            {{notificationData?.createdAt | date: "MMM d, y hh:mm:ss a"}}
+                        </span>
+                    </div>
+                    <div class="py-3">
+                        <span>From: </span>
+                        <span class="label label-lg font-weight-bold label-light-primary label-inline m-1" *ngFor="let sender of notificationData?.sender">
+                            {{sender}}
+                        </span>
+                    </div>
+                    <div class="py-3">
+                        <span>To: </span>
+                        <span class="label label-lg font-weight-bold label-light-danger label-inline m-1" *ngFor="let receiver of notificationData?.receivers">
+                            {{receiver}}
+                        </span>
+                    </div>
+                    <div class="py-3">
+                        <p style="word-wrap: break-word;">
+                            {{notificationData?.content}}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

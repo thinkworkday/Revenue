@@ -1,0 +1,171 @@
+<app-reporting-filtering (onDatesPicked)="updateReportingFiltering($event)"></app-reporting-filtering>
+
+<!--Chart Data Show-->
+<app-reporting-revenue-chart *ngIf="chartData" [chartData]="chartData"></app-reporting-revenue-chart>
+
+<app-summary-metrics *ngIf="summaryMetrics" [summaryMetricsData]="summaryMetrics"></app-summary-metrics>
+
+<div class="row">
+  <div class="col-xl-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose an Group By</mat-label>
+      <mat-select (selectionChange)="groupHandle($event)" [(ngModel)]="groupType">
+        <mat-option value="date">Date</mat-option>
+        <mat-option value="publisher">Publisher</mat-option>
+        <mat-option value="subid">Subid</mat-option>
+        <mat-option value="reset">Reset</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<ngx-datatable #expandableTable class="material fullscreen expandable" style="top: 30px; height: 500px"
+  [columnMode]="'force'" [headerHeight]="50" [footerHeight]="0" [rowHeight]="50" [scrollbarV]="true" [rows]="rows"
+  [loadingIndicator]="loadingIndicator">
+  <!-- Row Detail Template -->
+  <ngx-datatable-row-detail [rowHeight]="groupType === 'publisher' || groupType === 'subid' ? getDetailRowHeight : 130" (toggle)="onDetailToggle($event)">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+      <div class="table-responsive" style="padding-left: 36px;" *ngIf="groupType === 'publisher' || groupType === 'subid'">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Searches</th>
+              <th>Clicks</th>
+              <th>CTR</th>
+              <th>CPC</th>
+              <th>Publisher Net</th>
+              <th>Profit</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let subDateData of row.subReportingForDate">
+              <td>{{ subDateData.date | date }}</td>
+              <td>{{ subDateData.searches | number }}</td>
+              <td>{{ subDateData.clicks | number }}</td>
+              <td>{{ (subDateData.ctr | percent: '2.2-2') || (0 | percent: '2.2-2') }}</td>
+              <td>{{ (subDateData.cpc | currency: 'USD') || (0 | currency: 'USD') }}</td>
+              <td>{{ subDateData.publisherNet | currency: 'USD' }}</td>
+              <td>{{ subDateData.profit | currency: 'USD' }}</td>
+              <td>{{ subDateData.revenue | currency: 'USD' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding-left: 35px" *ngIf="groupType !== 'publisher' && groupType !== 'subid'">
+        <div><strong>Address</strong></div>
+        <div>Test</div>
+      </div>
+    </ng-template>
+  </ngx-datatable-row-detail>
+
+  <!-- Column Templates -->
+  <ngx-datatable-column [width]="30" [resizeable]="false" [sortable]="false" [draggable]="false"
+    [canAutoResize]="false">
+    <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+        title="Expand/Collapse Row" (click)="toggleExpandRow(row)">
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- Date -->
+  <ngx-datatable-column name="date" [minWidth]="100" *ngIf="!groupPublishFlag && !groupSubidShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Date
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | date }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- SUBID -->
+  <ngx-datatable-column name="subid" *ngIf="!groupPublishFlag && !groupDateShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Subid
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+  <!-- PUBLISHER -->
+  <ngx-datatable-column name="publisher" [minWidth]="100" *ngIf="!groupDateShowFlag && !groupSubidShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Publisher
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+  <!-- Device -->
+  <ngx-datatable-column name="device" [minWidth]="100" *ngIf="!groupPublishFlag && !groupDateShowFlag && !groupSubidShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Device
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- Searches -->
+  <ngx-datatable-column name="Searches" *ngIf="!groupPublishFlag && !groupDateShowFlag && !groupSubidShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Searches
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | number }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- CLICKS -->
+  <ngx-datatable-column name="clicks" *ngIf="!groupPublishFlag && !groupDateShowFlag && !groupSubidShowFlag">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Clicks
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | number }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- SPLIT -->
+  <ngx-datatable-column name="split" [minWidth]="35">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Split
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ (value | number) || (0 | number: '1.0-0') }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- Publisher Net -->
+  <ngx-datatable-column name="publisherNet">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Publisher Net
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | currency: 'USD' }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- PROFIT -->
+  <ngx-datatable-column name="profit">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Profit
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | currency: 'USD' }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <!-- REVENUE -->
+  <ngx-datatable-column name="revenue">
+    <ng-template let-column="column" ngx-datatable-header-template>
+      Revenue
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <strong>{{ value | currency: 'USD' }}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

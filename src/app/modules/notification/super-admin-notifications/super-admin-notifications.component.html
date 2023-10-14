@@ -1,0 +1,93 @@
+<div class="row" *ngIf="!hidden">
+    <div class="col-xl-12">
+        <div class="card card-custom example example-compact gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">Super Admin Notifications</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <ngx-datatable class="material fullscreen" [rows]="rows" [columnMode]="'force'"
+                    [loadingIndicator]="loadingIndicator" [footerHeight]="50" [rowHeight]="50" [scrollbarH]="true"
+                    [headerHeight]="50" [limit]="10">
+                    
+                    <ngx-datatable-column name="Content">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            Content
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{ value }}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Sender">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            Sender
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span class="label label-lg font-weight-bold label-light-success label-inline m-1">
+                                {{value}}
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Receivers">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            Receivers
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span class="label label-lg font-weight-bold label-light-primary label-inline m-1" *ngFor="let v of value">
+                                {{v}}
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="CreatedAt">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            Date
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{ value | dateAsAgo }}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="id">
+                        <ng-template ngx-datatable-header-template></ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <a title="View Notification" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3" (click)="viewNotification(row._key)"
+                            >
+                            <span [inlineSVG]="'./assets/media/svg/icons/General/Cursor.svg'" cacheSVG="true"
+                                class="svg-icon svg-icon-md svg-icon-primary">
+                            </span>
+                            </a>
+                            <a title="Clear Notification" class="btn btn-icon btn-light btn-hover-danger btn-sm" (click)="clearNotification(row._key)">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="false"
+                                  class="svg-icon svg-icon-md svg-icon-danger">
+                                </span>
+                              </a>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- begin:: Error -->
+<div *ngIf="hidden" class="error error-3 d-flex flex-row-fluid bgi-size-cover bgi-position-center" style="background-image: url('./assets/media/error/bg3.jpg'); height: 100%;zoom: 1;
+    display: block;
+    min-height: 80vh;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #0e1724;">
+    <!--begin::Content-->
+    <div class="px-10 px-md-30 py-10 py-md-0 d-flex flex-column justify-content-md-center">
+        <p class="display-4 font-weight-boldest text-white mb-12">
+            How did you get here
+        </p>
+        <p class="font-size-h1 font-weight-boldest text-dark-75">
+            Sorry you can't access the page you're looking for.
+        </p>
+        <p class="font-size-h4 line-height-md">
+            There may be a misspelling in the URL entered,<br />or the page you are
+            looking for may no longer exist.
+        </p>
+    </div>
+    <!--end::Content-->
+</div>
+<!-- end:: Error -->

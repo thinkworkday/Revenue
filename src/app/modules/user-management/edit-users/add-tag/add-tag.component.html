@@ -1,0 +1,55 @@
+<mat-dialog-content class="mat-typography">
+  <div class="row">
+    <!-- STARTING UPDATE Tag-->
+    <div class="col-xl-12">
+      <div class="card card-custom example example-compact gutter-b">
+        <div class="card-header">
+          <div class="card-title">
+            <h3 class="card-label">Add or Remove Tags</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
+                    <th>Tag Name</th>
+                    <th>Publisher</th>
+                    <th>Advertiser</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tag of allTags; let i=index;">
+                    <td><input type="checkbox" value="{{tag._id}}" [(ngModel)]="tag.checked"></td>
+                    <td>{{ tag.tagName }}</td>
+                    <td>{{ tag.publisher }}</td>
+                    <td>{{ tag.advertiser }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- <mat-selection-list color="primary" #advertiser [(ngModel)]="userTags">
+                <mat-list-option *ngFor="let tag of allTags" [value]="tag._id">
+                  {{ tag.name }}
+                </mat-list-option>
+              </mat-selection-list> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="row buttons">
+  <div class="col-md-6">
+    <button class="save-button" mat-raised-button color="secondary" (click)="close()">
+      Cancel
+    </button>
+  </div>
+  <div class="col-md-6">
+    <button class="back-button" mat-raised-button color="primary" (click)="handleSubmit()">
+      Save
+    </button>
+  </div>
+</div>

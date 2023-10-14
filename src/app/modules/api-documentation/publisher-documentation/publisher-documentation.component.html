@@ -1,0 +1,26 @@
+<div class="contents__box contents__box--right">
+    <!-- contents__box -->
+    <div class="section">
+        <h3 class="section-head">API Documentation</h3>
+        <div class="section-content">
+            <ol>
+                <li>
+                    <p>API Link</p>
+                    <pre><code class="hljs bash"><span class="hljs-built_in">http://api.nextsys.io/api/publisher/reporting/api?apiKey=APIKEY&tag=TAGID&startDate=MM-DD-YYYY&endDate=MM-DD-YYYY</span></code></pre>
+                </li>
+                <li>
+                    <p>Parameters</p>
+                    <pre><code class="hljs bash"><span class="hljs-built_in"><span class="hljs-built">apiKey(required):</span> {{userApiKey}}</span><span class="hljs-built_in"><span class="hljs-built">tag(required):</span> Tag ID</span><span class="hljs-built_in"><span class="hljs-built">startDate(required):</span> MM-DD-YYYY</span><span class="hljs-built_in"><span class="hljs-built">endDate(required):</span> MM-DD-YYYY</span><span class="hljs-built_in"><span class="hljs-built">reportFormat(optional):</span> csv, json</span></code></pre>
+                </li>
+                <li>
+                    <p>The Available Request API</p>
+                    <div *ngFor="let tagId of tagIds;let index = index">
+                        <pre><code class="hljs bash"><a [href]="'http://api.nextsys.io/api/publisher/reporting/api?apiKey=' + userApiKey + '&tag=' + tagId + '&startDate=11-28-2022&endDate=11-30-2022&reportType=csv'" target="_blank"><span class="hljs-built_in">http://api.nextsys.io/api/publisher/reporting/api?apiKey={{userApiKey}}&tag={{tagId}}&startDate=11-28-2022&endDate=11-30-2022&reportType=csv</span></a></code></pre>
+                    </div>
+                    
+                </li>
+
+            </ol>
+        </div>
+    </div>
+</div>

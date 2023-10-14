@@ -1,0 +1,87 @@
+<!--begin::Header-->
+<ng-container *ngIf="extrasNotificationsDropdownStyle === 'light'">
+  <div class="d-flex flex-column pt-12 bg-dark-o-5 rounded-top">
+    <!--begin::Title-->
+    <h4 class="d-flex flex-center mb-0">
+      <span class="text-dark">Notifications</span>
+      <span *ngIf="currentUser.role !== 1" class="btn btn-text btn-danger btn-sm font-weight-bold btn-font-md ml-2">{{ unreadCounter ? unreadCounter : 0 }} new</span>
+    </h4>
+    <!--end::Title-->
+  </div>
+</ng-container>
+<ng-container *ngIf="extrasNotificationsDropdownStyle === 'dark'">
+  <div class="d-flex flex-column py-5 bgi-size-cover bgi-no-repeat rounded-top"
+    style="background-image: url('./assets/media/misc/bg-1.jpg');">
+    <!--begin::Title-->
+    <h4 class="d-flex flex-center rounded-top mb-0">
+      <span class="text-white">Notifications</span>
+      <span *ngIf="currentUser.role !== 1" class="btn btn-text btn-danger btn-sm font-weight-bold btn-font-md ml-2">{{ unreadCounter ? unreadCounter : 0 }} new</span>
+    </h4>
+    <!--end::Title-->
+  </div>
+</ng-container>
+<!--end::Header-->
+
+<!--begin::Content-->
+<div class="tab-content">
+  <!--begin::Tabpane-->
+  <div class="tab-pane" id="topbar_notifications_notifications" role="tabpanel"
+    [ngClass]="getActiveCSSClasses('topbar_notifications_notifications')">
+    <!--begin::Scroll-->
+    <div *ngIf="currentUser.role !== 1" class="navi navi-hover scroll my-4" data-scroll="true" style="position: relative; max-height: 300px;"
+      perfectScrollbar>
+      <div *ngFor="let publisherNotify of publisherRows">
+        <a href="javascript:void(0);" class="navi-item">
+          <div class="navi-link">
+            <div class="navi-icon mr-2">
+              <i class="flaticon2-paper-plane" [ngClass]="publisherNotify.status ? 'text-success' : 'text-danger'"></i>
+            </div>
+            <div class="navi-text" (click)="viewNotification(publisherNotify._key)">
+              <div class="font-weight-bold">
+                <span [ngClass]="publisherNotify.status ? 'text-success' : 'text-danger'">{{ publisherNotify.title }}</span>
+              </div>
+              <div class="text-muted">
+                {{ publisherNotify.createdAt | date: "MMM d, y hh:mm:ss a" }}
+              </div>
+            </div>
+            <!-- <div class="navi-icon mr-2" (click)="clearNotification(publisherNotify._key)">
+              <i class="flaticon-delete text-danger"></i>
+            </div> -->
+          </div>
+        </a>
+      </div>
+    </div>
+    <div *ngIf="currentUser.role == 1" class="navi navi-hover scroll my-4" data-scroll="true" style="position: relative; max-height: 300px;"
+      perfectScrollbar>
+      <div *ngFor="let superNotify of superAdminRows">
+        <a href="javascript:void(0);" class="navi-item">
+          <div class="navi-link">
+            <div class="navi-icon mr-2">
+              <i class="flaticon2-paper-plane" [ngClass]="superNotify.status == false ? 'text-danger' : 'text-success'"></i>
+            </div>
+            <div class="navi-text" (click)="viewNotification(superNotify._key)">
+              <div class="font-weight-bold">
+                <span [ngClass]="superNotify.status == false ? 'text-danger' : 'text-success'">{{ superNotify.title }}</span>
+              </div>
+              <div class="text-muted">
+                {{ superNotify.createdAt | date: "MMM d, y hh:mm:ss a" }}
+              </div>
+            </div>
+            <div class="navi-icon mr-2" (click)="clearSuperNotification(superNotify._key)">
+              <i class="flaticon-delete text-danger"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!--end::Scroll-->
+
+    <!--begin::Action-->
+    <div class="d-flex flex-center py-4">
+      <a href="javascript:void(0)" (click)="seeAll()" class="btn btn-light-primary font-weight-bold text-center">See All</a>
+    </div>
+    <!--end::Action-->
+  </div>
+  <!--end::Tabpane-->
+</div>
+<!--end::Content-->

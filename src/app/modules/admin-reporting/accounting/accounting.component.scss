@@ -1,0 +1,8 @@
+.ngx-datatable .datatable-body .datatable-row-detail {
+    overflow-y: hidden;
+    overflow-x: hidden!important;
+}
+
+.ngx-datatable.material .datatable-body .datatable-row-detail {
+    border-top: 1px solid #222!important;
+}
